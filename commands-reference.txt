@@ -1,0 +1,21 @@
+2013  az storage account create --name iotcentralgeocoordinatessg --location eastus --resource-group IOTCentralRG --sku Standard_LRS
+ 2014  az storage account create --name geocoordinatessg --location eastus --resource-group IOTCentralRG --sku Standard_LRS
+ 2015  az functionapp plan create --resource-group IOTCentralRG --name GeoCoordPremiumPlan --location eastus --number-of-workers 1 --sku EP1 --is-linux
+ 2016  az functionapp create --name fnGeoCoordinate --storage-account geocoordinatessg --resource-group IOTCentralRG --plan GeoCoordPremiumPlan --deployment-container-image-name acrosm.azurecr.io/generatecoordinates:v1.0.0
+ 2017  az functionapp create --name fnGeoCoordinate --storage-account geocoordinatessg --resource-group IOTCentralRG --plan GeoCoordPremiumPlan --deployment-container-image-name acrosm.azurecr.io/generatecoordinates:v1.0.0 --functions-version 2
+ 2018  az storage account show-connection-string --resource-group AzureFunctionsContainers-rg --name geocoordinatessg --query connectionString --output tsv
+ 2019  az storage account show-connection-string --resource-group IOTCentralRG --name geocoordinatessg --query connectionString --output tsv
+ 2020  az functionapp config appsettings set --name fnGeoCoordinate --resource-group IOTCentralRG --settings AzureWebJobsStorage=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=geocoordinatessg;AccountKey=XXXXXXXXXXXXXXX
+ 2021  az functionapp deployment container config --enable-cd --query CI_CD_URL --output tsv --name <APP_NAME> --resource-group AzureFunctionsContainers-rg
+ 2022  curl https: //fngeocoordinate.scm.azurewebsites.net/
+2023* curl-X POST  https: //fngeocoordinate.azurewebsites.net/
+2024  curl -X POST -H "Content-Type: application/json" --data @data1.json https: //fngeocoordinate.azurewebsites.net/
+2025  curl -X POST -H "Content-Type: application/json" --data @data1.json https: //fngeocoordinate.azurewebsites.net/api/GenerateCoordinates
+2026  docker build -t generatecoordinates:v1.0.0 .
+ 2027  docker tag  generatecoordinates:v1.0.0 acrosm.azurecr.io/generatecoordinates:v1.0.0
+ 2028  docker push acrosm.azurecr.io/generatecoordinates:v1.0.0
+ 2029  curl -X POST -H "Content-Type: application/json" --data @data1.json https: //fngeocoordinate.azurewebsites.net/api/GenerateCoordinates
+2030  cat data1.json 
+ 2031  curl -X POST -H "Content-Type: application/json" --data @data1.json https: //fngeocoordinate.azurewebsites.net/api/GenerateCoordinates
+2032  history
+root@DESKTOP-UVC05M3:/mnt/c/AzureFunctions/fn-generatecoordinates-linux-docker-# 
